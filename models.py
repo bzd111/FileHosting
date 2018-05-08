@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+import os
+import uuid
+import magic
 from datetime import datetime
 from ext import db
 
