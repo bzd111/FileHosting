@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-UDIO_MIMES = [
+AUDIO_MIMES = [
     'audio/x-aac',
     'audio/mp4',
     'audio/ogg',
