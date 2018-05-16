@@ -2,18 +2,15 @@
 # -*- coding:utf-8 -*-
 import os
 
-
-from werkzeug import SharedDataMiddleware
-from flask import Flask, abort, request, jsonify, redirect, send_file, render_template
-
+from flask import Flask, abort, request, jsonify, redirect, render_template
 
 from ext import db, mako
 from models import PasteFile
-from libs.utils import humanize_bytes
+from libs.utils import humanize_bytes, get_file_path
+
 
 app = Flask(__name__)
 app.config.from_object('config')
-
 mako.init_app(app)
 db.init_app(app)
 
@@ -68,9 +65,42 @@ def after_request(response):
 @app.route('/j', methods=['POST'])
 def j():
     uploaded_file = request.files['file']
-    pass
+    if uploaded_file:
+        paste_file = PasteFile.create_by_upload(uploaded_file)
+        db.session.add(paste_file)
+        db.session.commit()
+        width, height = paste_file.image_size
+
+        return jsonify({
+            'url': paste_file.url_i,
+            'short_url': paste_file.url_s,
+            'origin_filename': paste_file.filename,
+            'hash': paste_file.filehash,
+            'width': width,
+            'height': height
+        })
+    return abort(404)
+
+
+@app.route('/p/<filehash>')
+def perview(filehash):
+    paste_file = PasteFile.get_by_filehash(filehash)
+    if not paste_file:
+        filepath = get_file_path(filehash)
+        if not(os.path.exists(filepath)) and not(os.path.islink(filepath)):
+            return abort(404)
+        paste_file = PasteFile.create_by_old_paste(filehash)
+        db.session.add(paste_file)
+        db.session.commit()
+
+
+@app.route('/s/<symlink>')
+def s(symlik):
+    paste_file = PasteFile.get_by_symlik(symlik)
+    return redirect(paste_file.url_p)
+
 
 if __name__ == '__main__':
-    pass
+    app.run(host='0.0.0.0', port=5000)
 
 
