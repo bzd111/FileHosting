@@ -4,3 +4,4 @@ cropresize2==0.1.9
 short-url==1.2.1
 Flask-Mako==0.4
 Flask-SQLAlchemy==2.3.0
+python-magic-bin==0.4.14

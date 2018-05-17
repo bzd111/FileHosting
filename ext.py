@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-from flask_mako import MakoTmplates, render_template
+from flask_mako import MakoTemplates, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 
-mako = MakoTmplates()
+mako = MakoTemplates()
 db = SQLAlchemy()
 
 
