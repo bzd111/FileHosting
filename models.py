@@ -32,7 +32,7 @@ class PasteFile(db.Model):
     filename = db.Column(db.String(5000), nullable=True)
     filehash = db.Column(db.String(128), nullable=False, unique=True)
     filemd5 = db.Column(db.String(128), nullable=False, unique=True)
-    uploadtime = db.Column(db.DataTime, nullable=False)
+    uploadtime = db.Column(db.DateTime, nullable=False)
     mimetype = db.Column(db.String(256), nullable=False)
     size = db.Column(db.Integer, nullable=False)
 

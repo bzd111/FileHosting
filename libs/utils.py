@@ -5,9 +5,11 @@ import hashlib
 from functools import partial
 
 
-from config import UPLOAD_FOLDER
+from ..config import UPLOAD_FOLDER
+
 
 HERE = os.path.realpath(os.path.dirname(__file__))
+
 
 def get_file_md5(f, chunk_size=8192):
     # read 8M
@@ -26,7 +28,7 @@ def humanize_bytes(bytesize, precision=2):
         (1 << 10, 'KB'),
         (1 << 20, 'MB'),
         (1 << 30, 'GB'),
-        (1 << 40, 'TB')
+        (1 << 40, 'TB'),
         (1 << 50, 'PB'),
     )
     if bytesize == 1:
@@ -36,11 +38,9 @@ def humanize_bytes(bytesize, precision=2):
             break
     return "%.*f %s" %(precision, bytesize/factor, suffix)
 
-
+# UPLOAD_FOLDER = '/tmp/permdir'
 get_file_path = partial(os.path.join, HERE, UPLOAD_FOLDER)
 
 
 if __name__ == '__main__':
     pass
-
-
